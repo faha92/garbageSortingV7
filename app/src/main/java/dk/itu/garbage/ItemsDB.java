@@ -1,19 +1,26 @@
 package dk.itu.garbage;
+import android.content.Context;
+
 import androidx.lifecycle.ViewModel;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsDB extends ViewModel {
   private static String where;
   private static final List<Item> values = new ArrayList<>();
+  private ItemsDB(Context context) { fillItemsDB(context,"items.txt"); }
 
 
   public ItemsDB() {
-    values.add(new Item("coffee", "Irma"));
-    values.add(new Item("carrots", "Netto"));
-    values.add(new Item("milk", "Netto"));
-    values.add(new Item("bread", "bakery"));
-    values.add(new Item("butter", "Irma"));
+    values.add(new Item("newspaper", "paper"));
+    values.add(new Item("magazine", "paper"));
+    values.add(new Item("milk carton", "food"));
+    values.add(new Item("book", "paper"));
+    values.add(new Item("shampoo bottle", "plastic"));
   }
 
   public void addItem(String what, String where) {
@@ -39,6 +46,19 @@ public class ItemsDB extends ViewModel {
     return r.toString();
   }
 
+  public void fillItemsDB(Context context, String filename) {
+    try {
+      BufferedReader reader= new BufferedReader(
+              new InputStreamReader(context.getAssets().open(filename)));
+      String line= reader.readLine();
+      while (line != null) {
+        String[] gItem= line.split(",");
+        addItem(gItem[0], gItem[1]);
+        line= reader.readLine();
+      }
+    } catch (IOException e) {  // Error occurred when opening raw file for reading.
+    }
+  }
 
   public static String garbageLookup(String garbage) {
 

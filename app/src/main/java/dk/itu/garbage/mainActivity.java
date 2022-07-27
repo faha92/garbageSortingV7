@@ -14,7 +14,7 @@ public class mainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shoppingmain);
+        setContentView(R.layout.garbagegmain);
 
         fm= getSupportFragmentManager();
         setUpFragments();
